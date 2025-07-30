@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Happy Birthday Lisna</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: #ffeded;
+            color: #b30000;
+            text-align: center;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 1;
+        }
+
+        #fireworks-canvas {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Background Animation */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        .main {
+            position: relative;
+            background: #111;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            overflow: hidden;
+            gap: 8px 15px;
+            padding: 10px;
+        }
+
+        .box {
+            position: relative;
+            font-size: 0.7em;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #222;
+            transition: all 0.3s ease;
+        }
+
+        .box:nth-child(odd)::before {
+            content: "• Happy Birthday Lichuuu •"
+        }
+
+        .box:nth-child(even)::before {
+            content: "Always Keep Smiling";
+            filter: hue-rotate(180deg);
+        }
+
+        .box.animate {
+            color: rgb(0, 221, 255);
+            text-shadow: 0 0 10px rgb(0, 221, 255);
+        }
+
+        /* Birthday message overlay */
+        .birthday-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        /* Countdown Timer */
+        .countdown {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 4;
+            color: #fff;
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            animation: countdownPulse 1s ease-in-out infinite;
+            box-sizing: border-box;
+        }
+
+        @keyframes countdownPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        /* Candle Animation Styles */
+        .candle-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 4;
+            text-align: center;
+            animation: candleGlow 1s ease-in-out infinite alternate;
+        }
+
+        .candle {
+            position: relative;
+            width: 60px;
+            height: 120px;
+            margin: -60px auto 20px;
+        }
+
+
+        .wax {
+            width: 60px;
+            height: 100px;
+            background: linear-gradient(to bottom, #ffcccc, #ff4d4d);
+            border-radius: 8px 8px 25px 25px;
+            box-shadow: inset 4px 0 8px rgba(0, 0, 0, 0.15), 0 0 12px rgba(255, 0, 0, 0.3);
+        }
+
+        .wick {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 15px;
+            background: #654321;
+            border-radius: 1.5px;
+        }
+
+        .flame {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 25px;
+            /* background: radial-gradient(circle, #ffff00 20%, #ff6600 40%, #ff0000 70%); */
+            background: radial-gradient(circle, #ff6666 20%, #ff3300 50%, #cc0000 80%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0;
+            animation: flicker 0.5s ease-in-out infinite alternate;
+        }
+
+        .wish-text {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            margin-top: 20px;
+            /* max-width: 250px; */
+            /* line-height: 1.3; */
+        }
+
+        .flame-glow.lit {
+            position: absolute;
+            top: -32px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 36px;
+            background: radial-gradient(circle, rgba(255, 50, 50, 0.6) 0%, transparent 80%);
+            border-radius: 50%;
+            animation: glowPulse 1s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .flame.lit {
+            opacity: 1;
+            animation: flicker 0.5s ease-in-out infinite alternate;
+        }
+
+        #chatbot-container {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 260px;
+            max-width: 90vw;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+            z-index: 11;
+            overflow: hidden;
+            font-size: 0.9em;
+        }
+
+        #chat-box {
+            height: 160px;
+            overflow-y: auto;
+            padding: 12px 8px 8px 8px;
+            font-size: 0.95em;
+            background: #fff8f8;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chat-bubble {
+            max-width: 80%;
+            padding: 10px 16px;
+            border-radius: 20px;
+            margin-bottom: 2px;
+            word-break: break-word;
+            display: inline-block;
+            position: relative;
+            font-size: 1em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+        .chat-bubble.user {
+            background: linear-gradient(135deg, #ffe6e6 80%, #ffb3b3 100%);
+            color: #b30000;
+            align-self: flex-end;
+            border-bottom-right-radius: 6px;
+        }
+        .chat-bubble.user::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            bottom: 0;
+            width: 16px;
+            height: 24px;
+            background: transparent;
+            border-bottom-left-radius: 16px 14px;
+            box-shadow: 0 8px 0 0 #ffe6e6;
+            transform: scaleY(0.5) scaleX(0.7);
+        }
+        .chat-bubble.bot {
+            background: linear-gradient(135deg, #f2f2f2 80%, #e0e0e0 100%);
+            color: #333;
+            align-self: flex-start;
+            border-bottom-left-radius: 6px;
+        }
+        .chat-bubble.bot::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            bottom: 0;
+            width: 16px;
+            height: 24px;
+            background: transparent;
+            border-bottom-right-radius: 16px 14px;
+            box-shadow: 0 8px 0 0 #f2f2f2;
+            transform: scaleY(0.5) scaleX(0.7);
+        }
+        .chat-name {
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-bottom: 2px;
+            display: block;
+        }
+        .chat-bubble.user .chat-name {
+            color: #b30000;
+            text-align: right;
+        }
+        .chat-bubble.bot .chat-name {
+            color: #007b83;
+            text-align: left;
+        }
+
+        #user-input {
+            padding: 8px;
+            font-size: 0.9em;
+        }
+
+        #sendChatBtn {
+            padding: 0 14px;
+            font-size: 0.9em;
+        }
+
+        @media screen and (max-width: 480px) {
+            #chatbot-container {
+                bottom: 70px;
+                right: 15px;
+                width: 240px;
+            }
+
+            #chat-box {
+                height: 140px;
+            }
+
+            #user-input {
+                padding: 7px;
+            }
+
+            #sendChatBtn {
+                padding: 0 12px;
+            }
+        }
+
+        @keyframes glowPulse {
+            0% {
+                transform: translateX(-50%) scale(1);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translateX(-50%) scale(1.2);
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes flicker {
+            0% {
+                transform: translateX(-50%) scale(1) rotate(-2deg);
+            }
+
+            100% {
+                transform: translateX(-50%) scale(1.1) rotate(2deg);
+            }
+        }
+
+        @keyframes candleGlow {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6));
+            }
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                filter: drop-shadow(0 0 10px #ff69b4);
+            }
+
+            to {
+                filter: drop-shadow(0 0 20px #ff69b4) drop-shadow(0 0 30px #ff69b4);
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media screen and (max-width: 768px) {
+            .main {
+                gap: 5px 10px;
+                padding: 5px;
+            }
+
+            .box {
+                font-size: 0.5em;
+            }
+
+            .countdown {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8em;
+                top: 10px;
+                right: 10px;
+                border-width: 2px;
+            }
+
+            .candle-container {
+                transform: translate(-50%, -60%);
+            }
+
+            .candle {
+                width: 45px;
+                height: 90px;
+                margin: -45px auto 15px;
+            }
+
+            .wax {
+                width: 45px;
+                height: 75px;
+                border-radius: 6px 6px 20px 20px;
+            }
+
+            .wick {
+                width: 2.5px;
+                height: 12px;
+                top: -6px;
+            }
+
+            .flame {
+                width: 12px;
+                height: 20px;
+                top: -22px;
+            }
+
+            .wish-text {
+                font-size: 15px;
+                /* max-width: 280px; */
+                margin-top: 15px;
+                padding: 0 10px;
+            }
+
+        }
+
+        @media screen and (max-width: 480px) {
+            .main {
+                gap: 3px 8px;
+                padding: 3px;
+            }
+
+            .box {
+                font-size: 0.4em;
+            }
+
+            .countdown {
+                width: 40px;
+                height: 40px;
+                font-size: 1.4em;
+                top: 8px;
+                right: 8px;
+                border-width: 2px;
+            }
+
+            .candle-container {
+                transform: translate(-50%, -55%);
+            }
+
+            .candle {
+                width: 35px;
+                height: 70px;
+                margin: -35px auto 12px;
+            }
+
+            .wax {
+                width: 35px;
+                height: 55px;
+                border-radius: 5px 5px 15px 15px;
+            }
+
+            .wick {
+                width: 2px;
+                height: 10px;
+                top: -5px;
+            }
+
+            .flame {
+                width: 10px;
+                height: 16px;
+                top: -18px;
+            }
+
+            .wish-text {
+                font-size: 13px;
+                /* max-width: 220px; */
+                margin-top: 12px;
+                padding: 0 15px;
+                line-height: 1.3;
+            }
+
+        }
+
+        @media screen and (max-width: 360px) {
+            .countdown {
+                width: 35px;
+                height: 35px;
+                font-size: 1.2em;
+                top: 6px;
+                right: 6px;
+                border-width: 1px;
+            }
+
+            .candle-container {
+                transform: translate(-50%, -50%);
+            }
+
+            .candle {
+                width: 30px;
+                height: 60px;
+                margin: -30px auto 10px;
+            }
+
+            .wax {
+                width: 30px;
+                height: 45px;
+                border-radius: 4px 4px 12px 12px;
+            }
+
+            .wick {
+                width: 1.5px;
+                height: 8px;
+                top: -4px;
+            }
+
+            .flame {
+                width: 8px;
+                height: 14px;
+                top: -15px;
+            }
+
+            .wish-text {
+                font-size: 12px;
+                /* max-width: 180px; */
+                margin-top: 10px;
+                padding: 0 20px;
+                line-height: 1.2;
+            }
+        }
+
+        /* Ultra small screens */
+        @media screen and (max-height: 600px) {
+            .candle-container {
+                transform: translate(-50%, -45%);
+            }
+
+            .wish-text {
+                margin-top: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="fireworks-canvas"></canvas>
+    <div class="main"></div>
+    <div class="overlay"></div>
+
+    <!-- Countdown Timer -->
+    <div class="countdown" id="countdown">10</div>
+
+    <!-- Enhanced Candle Animation Sequence -->
+    <div class="candle-container" id="candleContainer">
+        <div class="candle">
+            <div class="flame-glow" id="flameGlow"></div>
+            <div class="flame" id="flame"></div>
+            <div class="wick"></div>
+            <div class="wax"></div>
+        </div>
+        <div class="wish-text" id="wishText">Make a wish, light the candle! 🕯️✨</div>
+    </div>
+
+    <!-- Birthday Image (hidden initially) -->
+    <img src="img.png" alt="Birthday Image" class="birthday-message" id="birthdayImage" style="display: none;" />
+
+    <!-- Floating Chatbot Button and Chat UI -->
+    <div id="chatbot-fab" style="display:none; position:fixed; bottom:30px; right:30px; z-index:10;">
+        <button id="openChatbotBtn"
+            style="background:#b30000; color:#fff; border:none; border-radius:50%; width:56px; height:56px; box-shadow:0 2px 8px rgba(0,0,0,0.2); font-size:2em; cursor:pointer;">💬</button>
+    </div>
+    <div id="chatbot-container"
+        style="display:none; position:fixed; bottom:100px; right:30px; width:300px; max-width:90vw; background:#fff; border-radius:16px; box-shadow:0 4px 24px rgba(0,0,0,0.18); z-index:11; overflow:hidden;">
+        <div
+            style="background:#b30000; color:#fff; padding:12px 16px; font-weight:bold; display:flex; align-items:center; justify-content:space-between;">
+            <span>Mr. Young BOT</span>
+            <button id="closeChatbotBtn"
+                style="background:none; border:none; color:#fff; font-size:1.2em; cursor:pointer;">✖</button>
+        </div>
+        <div id="chat-box" style="height:180px; overflow-y:auto; padding:10px; font-size:1em; background:#fff8f8;">
+        </div>
+        <div style="display:flex; border-top:1px solid #eee;">
+            <input type="text" id="user-input" placeholder="Say something..."
+                style="flex:1; border:none; padding:10px; font-size:1em; outline:none; background:#fff;" />
+            <button id="sendChatBtn"
+                style="background:#b30000; color:#fff; border:none; padding:0 18px; font-size:1em; cursor:pointer;">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Chatbot logic (from script.js)
+        const botReplies = [
+            "Haha good one! But I’m funnier 😏",
+            "You always know how to make me smile!",
+            "On a scale from 1 to 10, you're a 100 today 🎂",
+            "I hope your cake is as sweet as your humor 🍰",
+            "You + Red = Ultimate Combo 🔥"
+        ];
+
+        function showChatbotFab() {
+            document.getElementById('chatbot-fab').style.display = 'block';
+        }
+        function openChatbot() {
+            document.getElementById('chatbot-container').style.display = 'block';
+            document.getElementById('chatbot-fab').style.display = 'none';
+        }
+        function closeChatbot() {
+            document.getElementById('chatbot-container').style.display = 'none';
+            document.getElementById('chatbot-fab').style.display = 'block';
+        }
+
+
+        function getBotReply(message) {
+            const msg = message.toLowerCase();
+
+            if (msg.includes("hi") || msg.includes("hello")) {
+                return randomReply([
+                    "Hiiiii! Did someone just light up the chat? 🔥",
+                    "Hey there, Red Queen 👑",
+                    "Hello hello! Birthday mood ON? 🎂"
+                ]);
+            }
+
+            if (msg.includes("thank")) {
+                return randomReply([
+                    "You’re welcome, sweetness! But you still owe me cake 🍰",
+                    "Aww, now I’m blushing 😳",
+                    "Your ‘thanks’ just charged my heart battery 😎"
+                ]);
+            }
+
+            if (msg.includes("red")) {
+                return "You + Red = fire + magic 🔥✨";
+            }
+
+            if (msg.includes("funny") || msg.includes("joke")) {
+                return randomReply([
+                    "Why did the candle bring sunglasses? It was too lit 🔥😎",
+                    "I'm not saying you're funny, but you could replace Netflix 😂",
+                    "Even AI can't compete with your humor level!"
+                ]);
+            }
+
+            if (msg.includes("bye") || msg.includes("good night")) {
+                return randomReply([
+                    "Logging off... but dreaming of your smile 😴💭",
+                    "Bye bye, but your cuteness stays open in my memory tabs 😌",
+                    "Good night, boss lady 🌙"
+                ]);
+            }
+
+            if (msg.includes("who are you")) {
+                return "I’m Mr. Young Bot 😏 Custom-coded to celebrate the one and only Lisna Abdushukur today! 🎂";
+            }
+
+            if (msg.includes("birthday") || msg.includes("wish")) {
+                return randomReply([
+                    "Wishing you a 10x CCTV-level amazing year ahead 🎉",
+                    "Birthday girl energy detected 💖💖",
+                    "22 and already stunning the galaxy 💫"
+                ]);
+            }
+
+            // Default funny/fun replies
+            return randomReply([
+                "You + Red = fire + magic 🔥✨",
+                "Interesting… tell me more while I act like I’m not blushing 😳",
+                "Whatever you just said… 100% cuteness detected 💘",
+                "My sensors say: too much beauty in this chat 💥",
+                "You’re like WiFi — always connecting to my heart ❤️📶",
+                "Keep typing. I’m saving all this in my 😍 folder",
+                "You + Red = fire + magic 🔥✨",
+                "Wishing you a 10x CCTV-level amazing year ahead 🎉",
+                "Birthday girl energy detected 💖💖",
+                "22 and already stunning the galaxy 💫",
+                "Why did the candle bring sunglasses? It was too lit 🔥😎",
+                "I'm not saying you're funny, but you could replace Netflix 😂",
+                "Even AI can't compete with your humor level!",
+                "You + Red = fire + magic 🔥✨"
+            ]);
+        }
+
+        function randomReply(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+        function sendChatMessage() {
+            const input = document.getElementById("user-input");
+            const chatBox = document.getElementById("chat-box");
+
+            if (input.value.trim() !== "") {
+                // User message (Lisnaaa, right)
+                const userBubble = document.createElement('div');
+                userBubble.className = 'chat-bubble user';
+                userBubble.innerHTML = `<span class='chat-name'>Lisnaaa</span>${escapeHtml(input.value)}`;
+                chatBox.appendChild(userBubble);
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                const reply = getBotReply(input.value);
+                setTimeout(() => {
+                    // Bot message (Shakeek, left)
+                    const botBubble = document.createElement('div');
+                    botBubble.className = 'chat-bubble bot';
+                    botBubble.innerHTML = `<span class='chat-name'>Shakeek</span>${escapeHtml(reply)}`;
+                    chatBox.appendChild(botBubble);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 600);
+
+                input.value = "";
+            }
+        }
+
+        // Prevent XSS in chat
+        function escapeHtml(text) {
+            return text.replace(/[&<>"']/g, function (c) {
+                return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;','\'':'&#39;'}[c];
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('openChatbotBtn').onclick = openChatbot;
+            document.getElementById('closeChatbotBtn').onclick = closeChatbot;
+            document.getElementById('sendChatBtn').onclick = sendChatMessage;
+            document.getElementById('user-input').addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') sendChatMessage();
+            });
+        });
+        // Global variable to control fireworks
+        let fireworksStarted = false;
+
+        // Optimize background text creation based on screen size
+        function createBackgroundText() {
+            const screenWidth = window.innerWidth;
+            let textCount;
+
+            if (screenWidth <= 360) {
+                textCount = 150;
+            } else if (screenWidth <= 480) {
+                textCount = 200;
+            } else if (screenWidth <= 768) {
+                textCount = 250;
+            } else {
+                textCount = 300;
+            }
+
+            for (let i = 1; i < textCount; i++) {
+                let box = document.createElement("div");
+                box.classList.add("box");
+                box.style.filter = `hue-rotate(${i * 10}deg)`
+                document.querySelector(".main").appendChild(box);
+            }
+        }
+
+        // Create background text
+        createBackgroundText();
+
+        function animateBox() {
+            let boxes = document.querySelectorAll(".box");
+            let num = Math.floor(Math.random() * boxes.length);
+            boxes[num].classList.toggle("animate");
+        }
+        setInterval(animateBox, 800);
+
+        // Enhanced Fireworks System
+        const canvas = document.getElementById('fireworks-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor(x, y, angle, speed, color, size = 1) {
+                this.x = x;
+                this.y = y;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.color = color;
+                this.alpha = 1;
+                this.radius = (1.5 + Math.random() * 2) * size;
+                this.gravity = 0.05;
+                this.friction = 0.98;
+                this.trail = [];
+                this.maxTrail = window.innerWidth <= 480 ? 3 : 5;
+            }
+
+            update() {
+                this.trail.unshift({ x: this.x, y: this.y, alpha: this.alpha });
+                if (this.trail.length > this.maxTrail) {
+                    this.trail.pop();
+                }
+
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= 0.008;
+            }
+
+            draw(ctx) {
+                // Draw trail
+                for (let i = 0; i < this.trail.length; i++) {
+                    const t = this.trail[i];
+                    const trailAlpha = (t.alpha * (1 - i / this.trail.length)) * 0.3;
+                    if (trailAlpha > 0) {
+                        ctx.save();
+                        ctx.globalAlpha = trailAlpha;
+                        ctx.beginPath();
+                        ctx.arc(t.x, t.y, this.radius * (1 - i / this.trail.length), 0, 2 * Math.PI);
+                        ctx.fillStyle = this.color;
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                }
+
+                // Draw main particle
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+                ctx.fillStyle = this.color;
+                ctx.shadowColor = this.color;
+                ctx.shadowBlur = 15;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        class Rocket {
+            constructor(x, y, targetY, color) {
+                this.x = x;
+                this.y = y;
+                this.targetY = targetY;
+                this.color = color;
+                this.speed = 6 + Math.random() * 3;
+                this.exploded = false;
+                this.trail = [];
+                this.maxTrail = window.innerWidth <= 480 ? 5 : 8;
+            }
+
+            update() {
+                if (!this.exploded) {
+                    this.trail.unshift({ x: this.x, y: this.y });
+                    if (this.trail.length > this.maxTrail) {
+                        this.trail.pop();
+                    }
+
+                    if (this.y > this.targetY) {
+                        this.y -= this.speed;
+                        this.speed *= 0.99;
+                    } else {
+                        this.exploded = true;
+                    }
+                }
+            }
+
+            draw(ctx) {
+                if (!this.exploded) {
+                    // Draw rocket trail
+                    for (let i = 0; i < this.trail.length; i++) {
+                        const t = this.trail[i];
+                        const alpha = 1 - (i / this.trail.length);
+                        ctx.save();
+                        ctx.globalAlpha = alpha * 0.8;
+                        ctx.beginPath();
+                        ctx.arc(t.x, t.y, 2 * (1 - i / this.trail.length), 0, 2 * Math.PI);
+                        ctx.fillStyle = this.color;
+                        ctx.fill();
+                        ctx.restore();
+                    }
+
+                    // Draw rocket
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 4, 0, 2 * Math.PI);
+                    ctx.fillStyle = this.color;
+                    ctx.shadowColor = this.color;
+                    ctx.shadowBlur = 12;
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+        }
+
+        function randomColor() {
+            const colors = [
+                '#ff5252', '#ffd700', '#00e6e6', '#ff69b4',
+                '#ffffff', '#ffb347', '#b19cd9', '#ff6b6b',
+                '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        let particles = [];
+        let rockets = [];
+
+        function launchRocket() {
+            if (!fireworksStarted) return; // Only launch if fireworks have started
+
+            const centerX = canvas.width / 2;
+            const spread = window.innerWidth <= 480 ? 100 : 200;
+            const x = centerX + (Math.random() - 0.5) * spread;
+            const y = canvas.height - 10;
+            const targetY = canvas.height * (0.2 + Math.random() * 0.3);
+            rockets.push(new Rocket(x, y, targetY, randomColor()));
+        }
+
+        function explode(x, y, color) {
+            const isMobile = window.innerWidth <= 480;
+            const patterns = [
+                { count: isMobile ? 15 : 25, speed: 4, spread: 1 },
+                { count: isMobile ? 12 : 20, speed: 6, spread: 0.8 },
+                { count: isMobile ? 18 : 30, speed: 5, spread: 1.2 },
+                { count: isMobile ? 20 : 35, speed: 3, spread: 0.6 }
+            ];
+
+            const pattern = patterns[Math.floor(Math.random() * patterns.length)];
+
+            for (let i = 0; i < pattern.count; i++) {
+                const angle = (2 * Math.PI * i) / pattern.count + (Math.random() - 0.5) * 0.3;
+                const speed = pattern.speed * (0.5 + Math.random() * pattern.spread);
+                particles.push(new Particle(x, y, angle, speed, color, 0.6 + Math.random() * 0.3));
+            }
+
+            if (Math.random() < (isMobile ? 0.1 : 0.2)) {
+                setTimeout(() => {
+                    const secondaryCount = isMobile ? 5 : 10;
+                    for (let i = 0; i < secondaryCount; i++) {
+                        const angle = Math.random() * 2 * Math.PI;
+                        const speed = 2 + Math.random() * 2;
+                        particles.push(new Particle(
+                            x + (Math.random() - 0.5) * 20,
+                            y + (Math.random() - 0.5) * 20,
+                            angle, speed, randomColor(), 0.4
+                        ));
+                    }
+                }, 200);
+            }
+        }
+
+        function animateFireworks() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Update and draw rockets
+            for (let i = rockets.length - 1; i >= 0; i--) {
+                const rocket = rockets[i];
+                rocket.update();
+                rocket.draw(ctx);
+
+                if (rocket.exploded && !rocket._hasExploded) {
+                    explode(rocket.x, rocket.y, rocket.color);
+                    rocket._hasExploded = true;
+                    rockets.splice(i, 1);
+                }
+            }
+
+            // Update and draw particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.update();
+                p.draw(ctx);
+
+                if (p.alpha <= 0 || p.y > canvas.height + 50) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animateFireworks);
+        }
+
+        function startFireworks() {
+            fireworksStarted = true;
+
+            // Launch initial fireworks burst
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => launchRocket(), i * 300);
+            }
+
+            // Continue with regular launches
+            scheduleLaunch();
+
+            // Multiple rockets occasionally
+            setInterval(() => {
+                if (Math.random() < 0.3 && fireworksStarted) {
+                    setTimeout(() => launchRocket(), 100);
+                    setTimeout(() => launchRocket(), 200);
+                    setTimeout(() => launchRocket(), 300);
+                }
+            }, 5000);
+        }
+
+        function scheduleLaunch() {
+            if (fireworksStarted) {
+                launchRocket();
+                const nextLaunch = 800 + Math.random() * 1000;
+                setTimeout(scheduleLaunch, nextLaunch);
+            }
+        }
+
+        // Start the animation loop
+        animateFireworks();
+
+        // Enhanced candle lighting sequence with countdown
+        function startCandleSequence() {
+            const flame = document.getElementById('flame');
+            const flameGlow = document.getElementById('flameGlow');
+            const candleContainer = document.getElementById('candleContainer');
+            const birthdayImage = document.getElementById('birthdayImage');
+            const countdownElement = document.getElementById('countdown');
+            const wishText = document.getElementById('wishText');
+
+            let timeLeft = 10;
+
+            const countdownInterval = setInterval(() => {
+                timeLeft--;
+                countdownElement.textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.style.display = 'none';
+
+                    // Light the candle with enhanced animation
+                    flame.classList.add('lit');
+                    flameGlow.classList.add('lit');
+
+                    // Update wish text
+                    wishText.innerHTML = "🎉 Candle is lit! Make your wish! 🎉";
+
+                    // Start fireworks immediately when candle lights up
+                    setTimeout(() => {
+                        startFireworks();
+                    }, 500);
+
+                    // After candle is lit, wait 3 seconds then show birthday image
+                    setTimeout(() => {
+                        candleContainer.style.animation = 'fadeOut 1.5s ease-in-out forwards';
+
+                        setTimeout(() => {
+                            candleContainer.style.display = 'none';
+                            birthdayImage.style.display = 'block';
+                            birthdayImage.style.animation = 'fadeIn 1.5s ease-in-out forwards';
+                            // Show chatbot button after wish
+                            showChatbotFab();
+                        }, 1500);
+                    }, 3000);
+                }
+            }, 1000);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+        });
+
+        // Start the candle sequence
+        startCandleSequence();
+    </script>
+</body>
+
+</html>
